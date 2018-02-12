@@ -3,6 +3,7 @@
     "description": "Request `fields` parameter parser",
     "type": "library",
     "require": {
+        "php": "^7.0",
         "doctrine/lexer": "^1.0.1"
     },
     "license": "proprietary",

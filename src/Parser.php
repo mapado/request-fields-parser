@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Mapado\RequestFieldsParser;
 
@@ -9,7 +9,7 @@ namespace Mapado\RequestFieldsParser;
  *
  * @author Julien Deniau <julien.deniau@mapado.com>
  */
-class Parser
+class Parser implements ParserInterface
 {
     // use StopwatchTrait;
 
@@ -34,31 +34,19 @@ class Parser
 
     /**
      * parse
-     *
-     * @param string $string
-     *
-     * @return array
      */
-    public function parse($string)
+    public function parse(string $string): array
     {
-        // $this->stopwatchStart();
-
         $this->lexer->setInput($string);
         $out = $this->treatCurrent(true);
-
-        // $this->stopwatchStop();
 
         return $out;
     }
 
     /**
      * treatCurrent
-     *
-     * @param bool $isFirst
-     *
-     * @return array
      */
-    private function treatCurrent($isFirst)
+    private function treatCurrent(bool $isFirst): array
     {
         if ($isFirst) {
             $this->lexer->moveNext();
