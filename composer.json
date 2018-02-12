@@ -1,0 +1,26 @@
+{
+    "name": "mapado/request-fields-parser",
+    "description": "Request `fields` parameter parser",
+    "type": "library",
+    "require": {
+        "doctrine/lexer": "^1.0.1"
+    },
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Julien Deniau",
+            "email": "julien.deniau@mapado.com"
+        }
+    ],
+    "require-dev": {
+        "atoum/atoum": "^3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Mapado\\RequestFieldsParser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": { "Mapado\\RequestFieldsParser\\Tests\\Units\\": "tests/" }
+    }
+}
