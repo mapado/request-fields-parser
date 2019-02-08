@@ -61,3 +61,7 @@ class ExtendedParser implements ParserInterface
     }
 }
 ```
+
+## Contribute
+
+Just run `make test` to launch the test suite
