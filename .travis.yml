@@ -10,7 +10,7 @@ matrix:
         - php: 7.0
 
 install:
-    - composer install
+    - make install
 
 script:
     - make test
