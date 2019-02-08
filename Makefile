@@ -6,4 +6,4 @@ vendor: composer.lock
 	composer install
 
 test: vendor
-	atoum -d tests
+	vendor/bin/atoum -d tests
