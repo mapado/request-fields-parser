@@ -1,4 +1,4 @@
-# request-fields-parser
+# request-fields-parser [![Build Status](https://travis-ci.org/mapado/request-fields-parser.svg?branch=master)](https://travis-ci.org/mapado/request-fields-parser)
 
 Convert string like `id,firstname,lastname,jobs{startDate,position,company{id,recordNumber}}` to the following array:
 ```php
