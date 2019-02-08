@@ -1,6 +1,6 @@
 # request-fields-parser
 
-Convert string like "id,firstname,lastname,jobs{startDate,position,company{id,recordNumber}}" to the following array:
+Convert string like `id,firstname,lastname,jobs{startDate,position,company{id,recordNumber}}` to the following array:
 ```php
 [
     'id' => true,
@@ -40,7 +40,7 @@ $outArray = $parser->parse($string);
 
 You can decorate the Parser like this:
 
-```
+```php
 use Mapado\RequestFieldsParser\ParserInterface;
 
 class ExtendedParser implements ParserInterface
