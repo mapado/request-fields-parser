@@ -21,12 +21,7 @@ class Lexer extends DoctrineLexer
      */
     protected function getCatchablePatterns()
     {
-        return [
-            '[^,\{\}]+',
-            ',',
-            '{',
-            '}',
-        ];
+        return ['[^,\{\}]+', ',', '{', '}'];
     }
 
     /**
@@ -34,9 +29,7 @@ class Lexer extends DoctrineLexer
      */
     protected function getNonCatchablePatterns()
     {
-        return [
-            '\s+',
-        ];
+        return ['\s+'];
     }
 
     /**
