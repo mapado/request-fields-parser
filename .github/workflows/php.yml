@@ -1,0 +1,54 @@
+name: Tests
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+
+    runs-on: ubuntu-20.04
+    
+    strategy:
+      matrix:
+        include:
+          - php: "8.1"
+          - php: "8.2"
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup PHP with composer
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php }}
+        tools: composer
+        
+    - name: Get Composer Cache Directory
+      id: composer-cache
+      run: |
+        echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+    - uses: actions/cache@v3
+      with:
+        path: ${{ steps.composer-cache.outputs.dir }}
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install dependencies
+      run: composer install
+      
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    # - name: PHPStan
+    #   run: vendor/bin/phpstan analyse -c phpstan.neon src/
+    
+    - name: atoum
+      run: vendor/bin/atoum -d tests
