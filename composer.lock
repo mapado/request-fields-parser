@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90328ef8784b0cff2fc3d70a3b4342d1",
+    "content-hash": "8a4f274f4f942e8c337d905f6030148a",
     "packages": [
         {
             "name": "doctrine/lexer",
@@ -64,16 +64,16 @@
     "packages-dev": [
         {
             "name": "atoum/atoum",
-            "version": "3.2.0",
+            "version": "4.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "6f4ab88f3a1826aed2372c9f7f0d53b9303f672a"
+                "reference": "fd9a339de252ea774ab755b3fd25dd19be2dbefb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/6f4ab88f3a1826aed2372c9f7f0d53b9303f672a",
-                "reference": "6f4ab88f3a1826aed2372c9f7f0d53b9303f672a",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/fd9a339de252ea774ab755b3fd25dd19be2dbefb",
+                "reference": "fd9a339de252ea774ab755b3fd25dd19be2dbefb",
                 "shasum": ""
             },
             "require": {
@@ -81,13 +81,13 @@
                 "ext-json": "*",
                 "ext-tokenizer": "*",
                 "ext-xml": "*",
-                "php": "^5.6.0 || ^7.0.0"
+                "php": "^8.0"
             },
             "replace": {
                 "mageekguy/atoum": "*"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "~1.12"
+                "friendsofphp/php-cs-fixer": "^3.2"
             },
             "suggest": {
                 "atoum/stubs": "Provides IDE support (like autocompletion) for atoum",
@@ -100,7 +100,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.x-dev"
+                    "dev-master": "4.x-dev"
                 }
             },
             "autoload": {
@@ -143,7 +143,11 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2017-09-07T08:27:13+00:00"
+            "support": {
+                "issues": "https://github.com/atoum/atoum/issues",
+                "source": "https://github.com/atoum/atoum/tree/4.2.0"
+            },
+            "time": "2023-07-30T12:52:23+00:00"
         }
     ],
     "aliases": [],
@@ -151,6 +155,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
-    "platform-dev": []
+    "platform": {
+        "php": "^7.0||^8.1"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
 }
