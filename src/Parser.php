@@ -19,10 +19,7 @@ class Parser implements ParserInterface
         $this->lexer = new Lexer();
     }
 
-    /**
-     * parse
-     */
-    public function parse(string $string): array
+    public function parse(string $string): Fields
     {
         $this->lexer->setInput($string);
         $out = $this->treatCurrent(true);
@@ -30,18 +27,15 @@ class Parser implements ParserInterface
         return $out;
     }
 
-    /**
-     * return type should be recursive, but it is not handled by phpstan.
-     * Next PR will use an object instead of an array so ignore this
-     * @return array<string, true|array<mixed>>
-     */
-    private function treatCurrent(bool $isFirst): array
+    private function treatCurrent(bool $isFirst): Fields
     {
         if ($isFirst) {
             $this->lexer->moveNext();
         }
         $this->lexer->moveNext();
-        $out = [];
+
+        $out = new Fields();
+
         while ($this->lexer->token) {
             switch ($this->lexer->token->type) {
                 case Lexer::T_FIELD_NAME:
