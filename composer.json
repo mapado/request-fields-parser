@@ -3,7 +3,7 @@
     "description": "Convert string like `id,firstname,lastname,jobs{startDate,position,company{id,recordNumber}}` to the array",
     "type": "library",
     "require": {
-        "php": "^7.0||^8.1",
+        "php": "^8.1",
         "doctrine/lexer": "^1.0.1"
     },
     "license": "proprietary",
