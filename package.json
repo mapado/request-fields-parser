@@ -1,0 +1,23 @@
+{
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "lint-staged": "lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.20.1",
+    "lint-staged": "^14.0.1",
+    "pre-commit": "^1.2.2",
+    "prettier": "^3.0.3"
+  },
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.{json,css,scss,md,yaml,neon}": [
+      "prettier --write"
+    ],
+    "*.php": [
+      "prettier --write"
+    ]
+  }
+}
