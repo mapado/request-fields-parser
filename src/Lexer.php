@@ -5,9 +5,7 @@ namespace Mapado\RequestFieldsParser;
 use Doctrine\Common\Lexer\AbstractLexer as DoctrineLexer;
 
 /**
- * Class RequestFieldLexer
- *
- * @author Julien Deniau <julien.deniau@mapado.com>
+ * @extends DoctrineLexer<int, string>
  */
 class Lexer extends DoctrineLexer
 {
@@ -35,21 +33,17 @@ class Lexer extends DoctrineLexer
     /**
      * {@inheritdoc}
      */
-    protected function getType(&$value)
+    protected function getType(string &$value): int
     {
         switch ($value) {
             case ',':
                 return self::T_FIELD_SEPARATOR;
-                break;
             case '{':
                 return self::T_OBJECT_START;
-                break;
             case '}':
                 return self::T_OBJECT_END;
-                break;
             default:
                 return self::T_FIELD_NAME;
-                break;
         }
     }
 }

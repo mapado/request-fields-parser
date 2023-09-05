@@ -2,27 +2,14 @@
 
 namespace Mapado\RequestFieldsParser;
 
-// use Mapado\RequestFieldsParser\DataCollector\StopwatchTrait;
-
-/**
- * Class parser
- *
- * @author Julien Deniau <julien.deniau@mapado.com>
- */
 class Parser implements ParserInterface
 {
-    // use StopwatchTrait;
-
     /**
-     * lastKey
-     *
      * @var string
      */
     private $lastKey = null;
 
     /**
-     * lexer
-     *
      * @var Lexer
      */
     private $lexer;
@@ -44,7 +31,9 @@ class Parser implements ParserInterface
     }
 
     /**
-     * treatCurrent
+     * return type should be recursive, but it is not handled by phpstan.
+     * Next PR will use an object instead of an array so ignore this
+     * @return array<string, true|array<mixed>>
      */
     private function treatCurrent(bool $isFirst): array
     {

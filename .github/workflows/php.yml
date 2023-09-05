@@ -47,8 +47,8 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
-    # - name: PHPStan
-    #   run: vendor/bin/phpstan analyse -c phpstan.neon src/
+    - name: PHPStan
+      run: vendor/bin/phpstan analyse
     
     - name: atoum
       run: vendor/bin/atoum -d tests
