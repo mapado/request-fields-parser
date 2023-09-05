@@ -6,7 +6,7 @@ vendor: composer.lock
 	composer install
 
 test: vendor
-	vendor/bin/atoum -d tests
+	vendor/bin/phpunit tests
 
 phpstan: vendor
 	vendor/bin/phpstan analyse

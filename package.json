@@ -16,7 +16,7 @@
     "*.{json,css,scss,md,yaml}": [
       "prettier --write"
     ],
-    "*.{neon}": [
+    "*.neon": [
       "prettier --write --parser=yaml"
     ],
     "*.php": [
