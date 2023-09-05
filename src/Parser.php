@@ -54,10 +54,10 @@ class Parser implements ParserInterface
         $this->lexer->moveNext();
         $out = [];
         while ($this->lexer->token) {
-            switch ($this->lexer->token['type']) {
+            switch ($this->lexer->token->type) {
                 case Lexer::T_FIELD_NAME:
-                    $out[$this->lexer->token['value']] = true;
-                    $this->lastKey = $this->lexer->token['value'];
+                    $out[$this->lexer->token->value] = true;
+                    $this->lastKey = $this->lexer->token->value;
                     break;
 
                 case Lexer::T_FIELD_SEPARATOR:
