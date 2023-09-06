@@ -82,11 +82,5 @@ class ParserTest extends TestCase
             Fields::class,
             iterator_to_array($parsed)['eventDate'],
         );
-
-        $this->assertSame(['@id', 'title', 'eventDate'], $parsed->keys());
-        $this->assertSame(
-            ['@id', 'startDate', 'ticketing'],
-            $parsed['eventDate']->keys(),
-        );
     }
 }

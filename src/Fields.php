@@ -16,6 +16,31 @@ class Fields implements ArrayAccess, IteratorAggregate
     /** @var array<string, true|Fields> */
     private $fields = [];
 
+    /** @return array<string> */
+    public function keys(): array
+    {
+        return array_keys($this->fields);
+    }
+
+    public function merge(Fields $newFields): Fields
+    {
+        $fields = clone $this;
+
+        foreach ($newFields as $key => $value) {
+            if (
+                isset($fields[$key]) &&
+                $fields[$key] instanceof Fields &&
+                $value instanceof Fields
+            ) {
+                $fields[$key] = $fields[$key]->merge($value);
+            } else {
+                $fields[$key] = $value;
+            }
+        }
+
+        return $fields;
+    }
+
     /** @return ArrayIterator<string, true|Fields> */
     public function getIterator(): Traversable
     {
@@ -52,11 +77,5 @@ class Fields implements ArrayAccess, IteratorAggregate
             fn($value) => $value instanceof Fields ? $value->toArray() : $value,
             $this->fields,
         );
-    }
-
-    /** @return array<string> */
-    public function keys(): array
-    {
-        return array_keys($this->fields);
     }
 }
