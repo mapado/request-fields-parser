@@ -15,9 +15,8 @@ jobs:
     
     strategy:
       matrix:
-        include:
-          - php: "8.1"
-          - php: "8.2"
+        php-versions: ['8.1', '8.2', '8.3']
+        lexer-version: ['^2', 'latest']
 
     steps:
     - uses: actions/checkout@v4
@@ -25,7 +24,7 @@ jobs:
     - name: Setup PHP with composer
       uses: shivammathur/setup-php@v2
       with:
-        php-version: ${{ matrix.php }}
+        php-version: ${{ matrix.php-versions }}
         tools: composer
         
     - name: Get Composer Cache Directory
@@ -42,6 +41,10 @@ jobs:
 
     - name: Install dependencies
       run: composer install
+
+    - name: Install doctrine/lexer
+      if: ${{ matrix.lexer-version != 'latest' }}
+      run: composer require doctrine/lexer:${{ matrix.lexer-version }}
       
     - name: Validate composer.json and composer.lock
       run: composer validate --strict

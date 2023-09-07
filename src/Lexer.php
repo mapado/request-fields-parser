@@ -32,8 +32,12 @@ class Lexer extends DoctrineLexer
 
     /**
      * {@inheritdoc}
+     *
+     * @param string $value
+     *
+     * @return int
      */
-    protected function getType(string &$value): int
+    protected function getType(&$value): int
     {
         switch ($value) {
             case ',':
