@@ -13,8 +13,11 @@
   },
   "pre-commit": "lint-staged",
   "lint-staged": {
-    "*.{json,css,scss,md,yaml,neon}": [
+    "*.{json,css,scss,md,yaml}": [
       "prettier --write"
+    ],
+    "*.neon": [
+      "prettier --write --parser=yaml"
     ],
     "*.php": [
       "prettier --write"

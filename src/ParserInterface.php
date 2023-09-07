@@ -4,8 +4,5 @@ namespace Mapado\RequestFieldsParser;
 
 interface ParserInterface
 {
-    /**
-     * parse
-     */
-    public function parse(string $string): array;
+    public function parse(string $string): Fields;
 }

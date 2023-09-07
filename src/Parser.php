@@ -2,27 +2,14 @@
 
 namespace Mapado\RequestFieldsParser;
 
-// use Mapado\RequestFieldsParser\DataCollector\StopwatchTrait;
-
-/**
- * Class parser
- *
- * @author Julien Deniau <julien.deniau@mapado.com>
- */
 class Parser implements ParserInterface
 {
-    // use StopwatchTrait;
-
     /**
-     * lastKey
-     *
      * @var string
      */
     private $lastKey = null;
 
     /**
-     * lexer
-     *
      * @var Lexer
      */
     private $lexer;
@@ -32,10 +19,7 @@ class Parser implements ParserInterface
         $this->lexer = new Lexer();
     }
 
-    /**
-     * parse
-     */
-    public function parse(string $string): array
+    public function parse(string $string): Fields
     {
         $this->lexer->setInput($string);
         $out = $this->treatCurrent(true);
@@ -43,16 +27,15 @@ class Parser implements ParserInterface
         return $out;
     }
 
-    /**
-     * treatCurrent
-     */
-    private function treatCurrent(bool $isFirst): array
+    private function treatCurrent(bool $isFirst): Fields
     {
         if ($isFirst) {
             $this->lexer->moveNext();
         }
         $this->lexer->moveNext();
-        $out = [];
+
+        $out = new Fields();
+
         while ($this->lexer->token) {
             switch ($this->lexer->token->type) {
                 case Lexer::T_FIELD_NAME:
