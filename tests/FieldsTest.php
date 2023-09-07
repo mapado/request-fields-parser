@@ -101,6 +101,35 @@ class FieldsTest extends TestCase
             ],
             $merged->toArray(),
         );
+
+        $fields = Fields::fromArray([
+            'order' => ['ticketList' => ['valid' => true]],
+        ]);
+
+        $fields2 = Fields::fromArray([
+            'order' => ['ticketList' => true],
+        ]);
+
+        $this->assertSame(
+            [
+                'order' => [
+                    'ticketList' => [
+                        'valid' => true,
+                    ],
+                ],
+            ],
+            $fields->merge($fields2)->toArray(),
+        );
+        $this->assertSame(
+            [
+                'order' => [
+                    'ticketList' => [
+                        'valid' => true,
+                    ],
+                ],
+            ],
+            $fields2->merge($fields)->toArray(),
+        );
     }
 
     public function testFromArray(): void

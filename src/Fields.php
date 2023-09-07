@@ -93,13 +93,14 @@ class Fields implements ArrayAccess, IteratorAggregate, Stringable
         $fields = clone $this;
 
         foreach ($newFields as $key => $value) {
-            if (
-                isset($fields[$key]) &&
-                $fields[$key] instanceof Fields &&
-                $value instanceof Fields
-            ) {
-                $fields[$key] = $fields[$key]->merge($value);
+            if (($fields[$key] ?? null) instanceof Fields) {
+                if ($value instanceof Fields) {
+                    // both Fields : recursively merge
+                    $fields[$key] = $fields[$key]->merge($value);
+                }
+                // newField is not a Fields (but old is): keep the old one
             } else {
+                // take the new fields
                 $fields[$key] = $value;
             }
         }
