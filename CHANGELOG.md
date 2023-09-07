@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1
+
+- Fixes typing issue with doctrine/lexer 2 [#8](https://github.com/mapado/request-fields-parser/pull/8) by [@jdeniau](https://github.com/jdeniau)
+
 ## 3.0.0
 
 ### Changed
