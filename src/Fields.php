@@ -5,13 +5,14 @@ namespace Mapado\RequestFieldsParser;
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
+use Stringable;
 use Traversable;
 
 /**
  * @implements ArrayAccess<string, true|Fields>
  * @implements IteratorAggregate<string, true|array<mixed>>
  */
-class Fields implements ArrayAccess, IteratorAggregate
+class Fields implements ArrayAccess, IteratorAggregate, Stringable
 {
     /** @var array<string, true|Fields> */
     private $fields = [];
@@ -41,6 +42,23 @@ class Fields implements ArrayAccess, IteratorAggregate
                 $fields[$key] = self::fromArray($value, $nextKey);
             } elseif ($value === true) {
                 $fields[$key] = true;
+            } elseif (is_int($key)) {
+                if (is_string($value)) {
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'Invalid integer key "%s": string expected. Maybe you wanted to use the value as key ? `%s => true`.',
+                            $nextKey,
+                            $value,
+                        ),
+                    );
+                } else {
+                    throw new \InvalidArgumentException(
+                        sprintf(
+                            'Invalid integer key "%s": string expected.',
+                            $nextKey,
+                        ),
+                    );
+                }
             } else {
                 throw new \InvalidArgumentException(
                     sprintf(
@@ -114,5 +132,22 @@ class Fields implements ArrayAccess, IteratorAggregate
     public function offsetUnset(mixed $offset): void
     {
         unset($this->fields[$offset]);
+    }
+
+    public function __toString(): string
+    {
+        $result = '';
+
+        foreach ($this as $key => $value) {
+            if ($value instanceof Fields) {
+                $result .= $key . '{' . $value . '},';
+            } else {
+                $result .= $key . ',';
+            }
+        }
+
+        $result = trim($result, ',');
+
+        return $result;
     }
 }

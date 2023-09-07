@@ -154,6 +154,18 @@ class FieldsTest extends TestCase
         ];
 
         yield [
+            ['eventDate'],
+            'Invalid integer key "0": string expected. Maybe you wanted to use the value as key ? `eventDate => true`.',
+        ];
+
+        yield [
+            ['eventDate' => ['ticketing']],
+            'Invalid integer key "eventDate.0": string expected. Maybe you wanted to use the value as key ? `ticketing => true`.',
+        ];
+
+        yield [[new \stdClass()], 'Invalid integer key "0": string expected.'];
+
+        yield [
             ['eventDate' => new \stdClass()],
             'Invalid value for key "eventDate": array or true expected, found object.',
         ];
@@ -162,5 +174,38 @@ class FieldsTest extends TestCase
             ['eventDate' => ['ticketing' => ['name' => 'true']]],
             'Invalid value for key "eventDate.ticketing.name": array or true expected, found string.',
         ];
+    }
+
+    public function testToString(): void
+    {
+        $this->assertSame('', (string) new Fields());
+        $this->assertSame('@id', (string) Fields::fromArray(['@id' => true]));
+        $this->assertSame(
+            '@id,name',
+            (string) Fields::fromArray(['@id' => true, 'name' => true]),
+        );
+        $this->assertSame(
+            '@id,eventDate{}',
+            (string) Fields::fromArray(['@id' => true, 'eventDate' => []]),
+        );
+
+        $fields = Fields::fromArray([
+            '@id' => true,
+            'title' => true,
+            'eventDate' => [
+                'startDate' => true,
+                '@id' => true,
+                'ticketing' => [
+                    '@id' => true,
+                    'name' => true,
+                ],
+            ],
+            'facialValue' => true,
+        ]);
+
+        $this->assertSame(
+            '@id,title,eventDate{startDate,@id,ticketing{@id,name}},facialValue',
+            (string) $fields,
+        );
     }
 }
