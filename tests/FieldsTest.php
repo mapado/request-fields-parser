@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Mapado\RequestFieldsParser\Tests\Units;
 
 use Mapado\RequestFieldsParser\Fields;
-use Mapado\RequestFieldsParser\Parser;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Fields::class)]
@@ -14,26 +14,42 @@ class FieldsTest extends TestCase
 {
     public function testKeys(): void
     {
-        $parser = new Parser();
-
-        $fields = $parser->parse('@id,title,eventDate');
+        $fields = Fields::fromArray([
+            '@id' => true,
+            'title' => true,
+            'eventDate' => true,
+        ]);
         $this->assertSame(['@id', 'title', 'eventDate'], $fields->keys());
 
-        $fields = $parser->parse(
-            '@id,title,eventDate{@id,ticketing{@id,name}}',
-        );
+        $fields = Fields::fromArray([
+            '@id' => true,
+            'title' => true,
+            'eventDate' => [
+                '@id' => true,
+                'ticketing' => ['@id' => true, 'name' => true],
+            ],
+        ]);
         $this->assertSame(['@id', 'title', 'eventDate'], $fields->keys());
+        $this->assertInstanceOf(Fields::class, $fields['eventDate']);
         $this->assertSame(['@id', 'ticketing'], $fields['eventDate']->keys());
     }
 
     public function testMerge(): void
     {
-        $parser = new Parser();
-
-        $fields = $parser->parse('@id,title,eventDate');
-        $fields2 = $parser->parse(
-            '@id,facialValue,eventDate{@id,ticketing{@id,name}}',
-        );
+        $fields = Fields::fromArray([
+            '@id' => true,
+            'title' => true,
+            'eventDate' => true,
+        ]);
+        $fields2 = Fields::fromArray([
+            '@id' => true,
+            'title' => true,
+            'facialValue' => true,
+            'eventDate' => [
+                '@id' => true,
+                'ticketing' => ['@id' => true, 'name' => true],
+            ],
+        ]);
 
         $merged = $fields->merge($fields2);
 
@@ -54,10 +70,19 @@ class FieldsTest extends TestCase
             $merged->toArray(),
         );
 
-        $fields = $parser->parse('@id,title,eventDate{startDate}');
-        $fields2 = $parser->parse(
-            '@id,facialValue,eventDate{@id,ticketing{@id,name}}',
-        );
+        $fields = Fields::fromArray([
+            '@id' => true,
+            'title' => true,
+            'eventDate' => ['startDate' => true],
+        ]);
+        $fields2 = Fields::fromArray([
+            '@id' => true,
+            'facialValue' => true,
+            'eventDate' => [
+                '@id' => true,
+                'ticketing' => ['@id' => true, 'name' => true],
+            ],
+        ]);
 
         $merged = $fields->merge($fields2);
         $this->assertSame(
@@ -76,5 +101,66 @@ class FieldsTest extends TestCase
             ],
             $merged->toArray(),
         );
+    }
+
+    public function testFromArray(): void
+    {
+        $arrayFields = [
+            '@id' => true,
+            'title' => true,
+            'eventDate' => [
+                'startDate' => true,
+                '@id' => true,
+                'ticketing' => [
+                    '@id' => true,
+                    'name' => true,
+                ],
+            ],
+            'facialValue' => true,
+        ];
+
+        $fields = Fields::fromArray($arrayFields);
+
+        $this->assertSame($arrayFields, $fields->toArray());
+        $this->assertInstanceOf(Fields::class, $fields);
+        $this->assertInstanceOf(Fields::class, $fields['eventDate']);
+        $this->assertInstanceOf(
+            Fields::class,
+            $fields['eventDate']['ticketing'],
+        );
+        $this->assertTrue($fields['eventDate']['ticketing']['name']);
+    }
+
+    /**
+     * @param array<string, mixed> $fields
+     */
+    #[DataProvider('fromArrayExceptionProvider')]
+    public function testFromArrayException(array $fields, string $message): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage($message);
+
+        Fields::fromArray($fields);
+    }
+
+    /**
+     * @return iterable<array{array<string, mixed>, string}>
+     */
+    public static function fromArrayExceptionProvider(): iterable
+    {
+        yield [
+            ['eventDate' => 1],
+            'Invalid value for key "eventDate": array or true expected, found integer.',
+        ];
+
+        yield [
+            ['eventDate' => new \stdClass()],
+            'Invalid value for key "eventDate": array or true expected, found object.',
+        ];
+
+        yield [
+            ['eventDate' => ['ticketing' => ['name' => 'true']]],
+            'Invalid value for key "eventDate.ticketing.name": array or true expected, found string.',
+        ];
     }
 }

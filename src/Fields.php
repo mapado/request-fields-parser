@@ -22,6 +22,52 @@ class Fields implements ArrayAccess, IteratorAggregate
         return array_keys($this->fields);
     }
 
+    /**
+     * Convert an array to a Fields. reverse function of `toArray`
+     *
+     * @param array<string, true|array<mixed>> $arrayFields
+     */
+    public static function fromArray(
+        array $arrayFields,
+        string $previousKey = '',
+    ): Fields {
+        $fields = new self();
+
+        foreach ($arrayFields as $key => $value) {
+            $nextKey = $previousKey ? "{$previousKey}.{$key}" : $key;
+
+            if (is_array($value)) {
+                // @phpstan-ignore-next-line -- issue with recursive call not handled by phpstan
+                $fields[$key] = self::fromArray($value, $nextKey);
+            } elseif ($value === true) {
+                $fields[$key] = true;
+            } else {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Invalid value for key "%s": array or true expected, found %s.',
+                        $nextKey,
+                        gettype($value),
+                    ),
+                );
+            }
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Convert the fields instance to an array. You can convert back to a Fields instance by calling `Mapado\RequestFieldsParser\Fields::fromArray`
+     *
+     * @return array<string, true|array<mixed>>
+     */
+    public function toArray(): array
+    {
+        return array_map(
+            fn($value) => $value instanceof Fields ? $value->toArray() : $value,
+            $this->fields,
+        );
+    }
+
     public function merge(Fields $newFields): Fields
     {
         $fields = clone $this;
@@ -68,14 +114,5 @@ class Fields implements ArrayAccess, IteratorAggregate
     public function offsetUnset(mixed $offset): void
     {
         unset($this->fields[$offset]);
-    }
-
-    /** @return array<string, true|array<mixed>> */
-    public function toArray(): array
-    {
-        return array_map(
-            fn($value) => $value instanceof Fields ? $value->toArray() : $value,
-            $this->fields,
-        );
     }
 }
