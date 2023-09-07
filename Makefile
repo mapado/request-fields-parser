@@ -1,12 +1,20 @@
 .PONY: install
 
-install: vendor
+install: vendor node_modules
 
 vendor: composer.lock
-	composer install
+	composer install 
+	## change the date of vendor dir to avoid regerate it each time with make
+	touch -d "now" vendor
+
+	
+node_modules: package-lock.json
+	npm i install
+	## change the date of vendor dir to avoid regerate it each time with make
+	touch -d "now" node_modules
 
 test: vendor
-	vendor/bin/atoum -d tests
+	vendor/bin/phpunit tests
 
 phpstan: vendor
 	vendor/bin/phpstan analyse

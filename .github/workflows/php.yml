@@ -3,8 +3,7 @@ name: Tests
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  pull_request: ~
 
 permissions:
   contents: read
@@ -50,5 +49,5 @@ jobs:
     - name: PHPStan
       run: vendor/bin/phpstan analyse
     
-    - name: atoum
-      run: vendor/bin/atoum -d tests
+    - name: unit tests
+      run: vendor/bin/phpunit tests
