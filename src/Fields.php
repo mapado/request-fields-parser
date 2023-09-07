@@ -42,6 +42,7 @@ class Fields implements ArrayAccess, IteratorAggregate, Stringable
                 $fields[$key] = self::fromArray($value, $nextKey);
             } elseif ($value === true) {
                 $fields[$key] = true;
+                // @phpstan-ignore-next-line -- check runtime and report
             } elseif (is_int($key)) {
                 if (is_string($value)) {
                     throw new \InvalidArgumentException(
@@ -51,6 +52,7 @@ class Fields implements ArrayAccess, IteratorAggregate, Stringable
                             $value,
                         ),
                     );
+                    // @phpstan-ignore-next-line -- check runtime and report
                 } else {
                     throw new \InvalidArgumentException(
                         sprintf(

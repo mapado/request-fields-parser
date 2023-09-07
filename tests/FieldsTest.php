@@ -140,6 +140,7 @@ class FieldsTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
 
+        // @phpstan-ignore-next-line -- check runtime and report
         Fields::fromArray($fields);
     }
 
@@ -153,6 +154,7 @@ class FieldsTest extends TestCase
             'Invalid value for key "eventDate": array or true expected, found integer.',
         ];
 
+        // @phpstan-ignore-next-line -- check runtime and report
         yield [
             ['eventDate'],
             'Invalid integer key "0": string expected. Maybe you wanted to use the value as key ? `eventDate => true`.',
@@ -163,6 +165,7 @@ class FieldsTest extends TestCase
             'Invalid integer key "eventDate.0": string expected. Maybe you wanted to use the value as key ? `ticketing => true`.',
         ];
 
+        // @phpstan-ignore-next-line -- check runtime and report
         yield [[new \stdClass()], 'Invalid integer key "0": string expected.'];
 
         yield [
