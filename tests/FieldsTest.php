@@ -8,10 +8,26 @@ use Mapado\RequestFieldsParser\Fields;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestStatus\Warning;
 
 #[CoversClass(Fields::class)]
 class FieldsTest extends TestCase
 {
+    public function testArrayAccess(): void
+    {
+        $fields = new Fields();
+
+        $this->assertNull($fields['@id']);
+
+        $fields['@id'] = true;
+
+        $this->assertTrue($fields['@id']);
+
+        $fields['eventDate'] = new Fields();
+
+        $this->assertInstanceOf(Fields::class, $fields['eventDate']);
+    }
+
     public function testKeys(): void
     {
         $fields = Fields::fromArray([
