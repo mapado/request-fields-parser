@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.3
+
+- Test array access + avoid warning [#9](https://github.com/mapado/request-fields-parser/pull/9) by [@jdeniau](https://github.com/jdeniau)
+
 ## 3.0.2
 
 - Fixes merge issue with mix of true & Fields for the same key
