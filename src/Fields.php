@@ -117,21 +117,35 @@ class Fields implements ArrayAccess, IteratorAggregate, Stringable
         return $iterator;
     }
 
+    /**
+     * @param string $offset
+     */
     public function offsetExists(mixed $offset): bool
     {
         return isset($this->fields[$offset]);
     }
 
+    /**
+     * @param string $offset
+     * @return true|Fields|null
+     */
     public function offsetGet(mixed $offset): mixed
     {
-        return $this->fields[$offset];
+        return $this->fields[$offset] ?? null;
     }
 
+    /**
+     * @param string $offset
+     * @param true|Fields $value
+     */
     public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->fields[$offset] = $value;
     }
 
+    /**
+     * @param string $offset
+     */
     public function offsetUnset(mixed $offset): void
     {
         unset($this->fields[$offset]);
