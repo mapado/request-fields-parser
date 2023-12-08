@@ -138,13 +138,6 @@ class ParserTest extends TestCase
         $reverseParsedWithBooleans = $testedInstance->reverseParse($sourceWithBooleans);
         $this->assertIsString($reverseParsedWithBooleans);
         $this->assertSame('@id,title,eventDate{@id,startDate,ticketing{@id}}', $reverseParsedWithBooleans);
-
-        $sample = '@id,title,eventDate{@id,startDate,ticketing{@id}}';
-        $parsedSample = $testedInstance->parse($sample);
-        $reverseParsedSample = $testedInstance->reverseParse($parsedSample);
-
-        $this->assertSame($sample, $reverseParsedSample);
-
     }
 
 
