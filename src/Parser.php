@@ -41,7 +41,7 @@ class Parser implements ParserInterface
             if (is_array($fieldValue) || $fieldValue instanceof \Traversable) {
                 $fieldsStr .= $fieldName . '{' . $this->reverseParse($fieldValue) . '},';
             } else {
-                $fieldsStr .= (is_bool($fieldValue) ? $fieldName : $fieldValue) . ',';
+                $fieldsStr .= (true === $fieldValue ? $fieldName : $fieldValue) . ',';
             }
         }
         $fieldsStr = rtrim($fieldsStr, ',');
