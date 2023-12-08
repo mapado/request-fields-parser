@@ -19,6 +19,8 @@ Convert string like `id,firstname,lastname,jobs{startDate,position,company{id,re
 
 You can think of it like an [explode](https://php.net/explode) on steroids.
 
+Also implement a `reverseParse` function for the opposite transformation.
+
 ## Installation
 
 ```sh
@@ -34,6 +36,8 @@ use Mapado\RequestFieldsParser\Parser;
 $parser = new Parser();
 
 $outArray = $parser->parse($string);
+
+$outString = $parser->reverseParse($array);
 ```
 
 ## Extensibility
@@ -55,7 +59,7 @@ class ExtendedParser implements ParserInterface
         $this->decoratedParser = $decoratedParser;
     }
 
-    public function parse(string $sttring): array
+    public function parse(string $string): array
     {
         // do stuff and return an array
     }
