@@ -28,7 +28,7 @@ class Parser implements ParserInterface
     }
 
     /**
-     * @param iterable<string, mixed>|string $fields
+     * @param iterable<int|string, mixed>|string $fields
      */
     public function reverseParse($fields): string
     {
