@@ -1,5 +1,9 @@
 # Changelog
 
+## PENDING
+
+- Add `Parser::reverseParse()` doing the opposite of `Parser::parse()` [#10](https://github.com/mapado/request-fields-parser/pull/10) by [@nickinthebox](https://github.com/nickinthebox)
+
 ## 3.0.3
 
 - Test array access + avoid warning [#9](https://github.com/mapado/request-fields-parser/pull/9) by [@jdeniau](https://github.com/jdeniau)

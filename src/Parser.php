@@ -27,6 +27,28 @@ class Parser implements ParserInterface
         return $out;
     }
 
+    /**
+     * @param iterable<string, mixed>|string $fields
+     */
+    public function reverseParse($fields): string
+    {
+        if (is_string($fields)) {
+            return $fields;
+        }
+
+        $fieldsStr = '';
+        foreach ($fields as $fieldName => $fieldValue) {
+            if (is_array($fieldValue) || $fieldValue instanceof \Traversable) {
+                $fieldsStr .= $fieldName . '{' . $this->reverseParse($fieldValue) . '},';
+            } else {
+                $fieldsStr .= (is_bool($fieldValue) ? $fieldName : $fieldValue) . ',';
+            }
+        }
+        $fieldsStr = rtrim($fieldsStr, ',');
+
+        return $fieldsStr;
+    }
+
     private function treatCurrent(bool $isFirst): Fields
     {
         if ($isFirst) {

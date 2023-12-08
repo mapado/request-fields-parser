@@ -22,6 +22,7 @@ class ParserTest extends TestCase
         $this->assertSame([], $parsed->toArray());
     }
 
+
     public function testOneLevelParser(): void
     {
         $testedInstance = new Parser();
@@ -82,5 +83,83 @@ class ParserTest extends TestCase
             Fields::class,
             iterator_to_array($parsed)['eventDate'],
         );
+    }
+
+
+    public function testReverseEmpty(): void
+    {
+        $testedInstance = new Parser();
+
+        $reverseParsed = $testedInstance->reverseParse([]);
+
+        $this->assertIsString($reverseParsed);
+        $this->assertSame('', $reverseParsed);
+    }
+
+    public function testOneLevelReverseParser(): void
+    {
+        $testedInstance = new Parser();
+        $reverseParsed = $testedInstance->reverseParse(['@id', 'title', 'eventDate']);
+        $this->assertIsString($reverseParsed);
+        $this->assertSame('@id,title,eventDate', $reverseParsed);
+    }
+
+    public function testMultiLevelReverseParser(): void
+    {
+        $source = [
+            '@id',
+            'title',
+            'eventDate' => [
+                '@id',
+                'startDate',
+                'ticketing' => [
+                    '@id',
+                ],
+            ],
+        ];
+
+        $testedInstance = new Parser();
+        $reverseParsed = $testedInstance->reverseParse($source);
+        $this->assertIsString($reverseParsed);
+        $this->assertSame('@id,title,eventDate{@id,startDate,ticketing{@id}}', $reverseParsed);
+
+        $sourceWithBooleans = [
+            '@id' => true,
+            'title' => true,
+            'eventDate' => [
+                '@id' => true,
+                'startDate' => true,
+                'ticketing' => [
+                    '@id' => true,
+                ],
+            ],
+        ];
+
+        $reverseParsedWithBooleans = $testedInstance->reverseParse($sourceWithBooleans);
+        $this->assertIsString($reverseParsedWithBooleans);
+        $this->assertSame('@id,title,eventDate{@id,startDate,ticketing{@id}}', $reverseParsedWithBooleans);
+
+        $sample = '@id,title,eventDate{@id,startDate,ticketing{@id}}';
+        $parsedSample = $testedInstance->parse($sample);
+        $reverseParsedSample = $testedInstance->reverseParse($parsedSample);
+
+        $this->assertSame($sample, $reverseParsedSample);
+
+    }
+
+
+    public function testReversability(): void
+    {
+        $testedInstance = new Parser();
+
+        $sample = '@id,title,eventDate';
+        $parsedSample = $testedInstance->parse($sample);
+        $reverseParsedSample = $testedInstance->reverseParse($parsedSample);
+        $this->assertSame($sample, $reverseParsedSample);
+
+        $sample = '@id,title,eventDate{@id,startDate,ticketing{@id}}';
+        $parsedSample = $testedInstance->parse($sample);
+        $reverseParsedSample = $testedInstance->reverseParse($parsedSample);
+        $this->assertSame($sample, $reverseParsedSample);
     }
 }
