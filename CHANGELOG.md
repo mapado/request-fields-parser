@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.1
+
+- Add native `array` return types to `Lexer::getCatchablePatterns()` and `Lexer::getNonCatchablePatterns()`, which silences Symfony's `DebugClassLoader` deprecations [#11](https://github.com/mapado/request-fields-parser/pull/11) by [@nikophil](https://github.com/nikophil)
+
 ## 3.1.0
 
 - Add `Parser::reverseParse()` doing the opposite of `Parser::parse()` [#10](https://github.com/mapado/request-fields-parser/pull/10) by [@nickinthebox](https://github.com/nickinthebox)
