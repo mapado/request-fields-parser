@@ -14,18 +14,12 @@ class Lexer extends DoctrineLexer
     const T_OBJECT_START = 3;
     const T_OBJECT_END = 4;
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getCatchablePatterns()
+    protected function getCatchablePatterns(): array
     {
         return ['[^,\{\}]+', ',', '{', '}'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getNonCatchablePatterns()
+    protected function getNonCatchablePatterns(): array
     {
         return ['\s+'];
     }
